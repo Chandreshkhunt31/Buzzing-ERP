@@ -3,7 +3,7 @@ FROM frappe/erpnext:v15.65.4
 # Set environment variables
 ENV ERPNEXT_VERSION=v15.65.4
 
-# Copy configuration script
+# Copy configuration script (no chmod needed - using bash)
 COPY setup.sh /setup.sh
 
 # Expose port
