@@ -1,0 +1,215 @@
+services:
+  # ERPNext Backend Service
+  - type: web
+    name: erpnext-backend
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: ERPNEXT_VERSION
+        value: v15.65.4
+      - key: DB_PASSWORD
+        generateValue: true
+      - key: DB_HOST
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: REDIS_CACHE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: REDIS_QUEUE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: FRAPPE_SITE_NAME_HEADER
+        value: ${RENDER_EXTERNAL_HOSTNAME}
+      - key: UPSTREAM_REAL_IP_ADDRESS
+        value: 0.0.0.0
+      - key: UPSTREAM_REAL_IP_HEADER
+        value: X-Forwarded-For
+      - key: UPSTREAM_REAL_IP_RECURSIVE
+        value: on
+      - key: PROXY_READ_TIMEOUT
+        value: 120
+      - key: CLIENT_MAX_BODY_SIZE
+        value: 50m
+    healthCheckPath: /api/method/ping
+    numInstances: 1
+
+  # ERPNext Frontend Service
+  - type: web
+    name: erpnext-frontend
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile.frontend
+    dockerContext: .
+    envVars:
+      - key: BACKEND
+        value: erpnext-backend:8000
+      - key: SOCKETIO
+        value: erpnext-websocket:9000
+      - key: FRAPPE_SITE_NAME_HEADER
+        value: ${RENDER_EXTERNAL_HOSTNAME}
+      - key: UPSTREAM_REAL_IP_ADDRESS
+        value: 0.0.0.0
+      - key: UPSTREAM_REAL_IP_HEADER
+        value: X-Forwarded-For
+      - key: UPSTREAM_REAL_IP_RECURSIVE
+        value: on
+      - key: PROXY_READ_TIMEOUT
+        value: 120
+      - key: CLIENT_MAX_BODY_SIZE
+        value: 50m
+    healthCheckPath: /
+    numInstances: 1
+
+  # ERPNext WebSocket Service
+  - type: web
+    name: erpnext-websocket
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile.websocket
+    dockerContext: .
+    envVars:
+      - key: ERPNEXT_VERSION
+        value: v15.65.4
+      - key: DB_HOST
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: REDIS_CACHE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: REDIS_QUEUE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+    healthCheckPath: /
+    numInstances: 1
+
+  # ERPNext Queue Short Worker
+  - type: worker
+    name: erpnext-queue-short
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile.worker
+    dockerContext: .
+    envVars:
+      - key: ERPNEXT_VERSION
+        value: v15.65.4
+      - key: DB_HOST
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: REDIS_CACHE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: REDIS_QUEUE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+    numInstances: 1
+
+  # ERPNext Queue Long Worker
+  - type: worker
+    name: erpnext-queue-long
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile.worker
+    dockerContext: .
+    envVars:
+      - key: ERPNEXT_VERSION
+        value: v15.65.4
+      - key: DB_HOST
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: REDIS_CACHE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: REDIS_QUEUE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+    numInstances: 1
+
+  # ERPNext Scheduler
+  - type: worker
+    name: erpnext-scheduler
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile.worker
+    dockerContext: .
+    envVars:
+      - key: ERPNEXT_VERSION
+        value: v15.65.4
+      - key: DB_HOST
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: REDIS_CACHE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: REDIS_QUEUE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+    numInstances: 1
+
+databases:
+  # MariaDB Database
+  - name: erpnext-db
+    databaseName: erpnext
+    user: erpnext
+    plan: starter
+
+  # Redis Database
+  - name: erpnext-redis
+    databaseName: redis
+    plan: starter 

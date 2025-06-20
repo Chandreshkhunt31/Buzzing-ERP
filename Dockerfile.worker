@@ -1,0 +1,11 @@
+FROM frappe/erpnext:v15.65.4
+
+# Set environment variables
+ENV ERPNEXT_VERSION=v15.65.4
+
+# Copy worker setup script
+COPY worker-setup.sh /worker-setup.sh
+RUN chmod +x /worker-setup.sh
+
+# Start the worker service
+CMD ["/worker-setup.sh"] 
