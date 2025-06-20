@@ -1,0 +1,49 @@
+services:
+  # Single ERPNext Service
+  - type: web
+    name: erpnext
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: ERPNEXT_VERSION
+        value: v15.65.4
+      - key: DB_PASSWORD
+        generateValue: true
+      - key: DB_HOST
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: REDIS_CACHE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: REDIS_QUEUE
+        fromService:
+          name: erpnext-redis
+          type: pserv
+          property: host
+      - key: FRAPPE_SITE_NAME_HEADER
+        value: ${RENDER_EXTERNAL_HOSTNAME}
+    healthCheckPath: /api/method/ping
+    numInstances: 1
+
+databases:
+  # MariaDB Database
+  - name: erpnext-db
+    databaseName: erpnext
+    user: erpnext
+    plan: free
+
+  # Redis Database
+  - name: erpnext-redis
+    databaseName: redis
+    plan: free 

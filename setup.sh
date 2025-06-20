@@ -42,6 +42,12 @@ fi
 # Set site as default
 bench use $SITE_NAME
 
+# Start background workers in the background
+echo "Starting background workers..."
+bench worker --queue short,default &
+bench worker --queue long,default,short &
+bench schedule &
+
 # Start the backend service
 echo "Starting Frappe backend..."
 bench start --port 8000 
