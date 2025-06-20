@@ -3,7 +3,7 @@ services:
   - type: web
     name: erpnext-backend
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
     envVars:
@@ -50,7 +50,7 @@ services:
   - type: web
     name: erpnext-frontend
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile.frontend
     dockerContext: .
     envVars:
@@ -77,7 +77,7 @@ services:
   - type: web
     name: erpnext-websocket
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile.websocket
     dockerContext: .
     envVars:
@@ -110,7 +110,7 @@ services:
   - type: worker
     name: erpnext-queue-short
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile.worker
     dockerContext: .
     envVars:
@@ -142,7 +142,7 @@ services:
   - type: worker
     name: erpnext-queue-long
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile.worker
     dockerContext: .
     envVars:
@@ -174,7 +174,7 @@ services:
   - type: worker
     name: erpnext-scheduler
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile.worker
     dockerContext: .
     envVars:
@@ -207,9 +207,9 @@ databases:
   - name: erpnext-db
     databaseName: erpnext
     user: erpnext
-    plan: starter
+    plan: free
 
   # Redis Database
   - name: erpnext-redis
     databaseName: redis
-    plan: starter 
+    plan: free 
