@@ -15,11 +15,18 @@ check_port() {
 echo "=== Environment Variables ==="
 echo "DB_HOST: ${DB_HOST:-'NOT SET'}"
 echo "DB_PORT: ${DB_PORT:-'NOT SET'}"
+echo "DB_NAME: ${DB_NAME:-'NOT SET'}"
+echo "DB_USER: ${DB_USER:-'NOT SET'}"
+echo "DB_PASSWORD: ${DB_PASSWORD:-'NOT SET'}"
 echo "REDIS_CACHE: ${REDIS_CACHE:-'NOT SET'}"
 echo "REDIS_QUEUE: ${REDIS_QUEUE:-'NOT SET'}"
 echo "FRAPPE_SITE_NAME_HEADER: ${FRAPPE_SITE_NAME_HEADER:-'NOT SET'}"
 echo "RENDER_EXTERNAL_HOSTNAME: ${RENDER_EXTERNAL_HOSTNAME:-'NOT SET'}"
 echo "================================"
+
+# Wait a bit for environment variables to be available
+echo "Waiting for environment variables to be set..."
+sleep 10
 
 # Configure Frappe
 echo "Configuring Frappe..."
@@ -38,8 +45,8 @@ if [ ! -d "/home/frappe/frappe-bench/sites/$SITE_NAME" ]; then
     bench new-site "$SITE_NAME" \
         --db-host "$DB_HOST" \
         --db-port "$DB_PORT" \
-        --db-name erpnext \
-        --db-root-username erpnext \
+        --db-name "$DB_NAME" \
+        --db-root-username "$DB_USER" \
         --db-root-password "$DB_PASSWORD" \
         --admin-password "$DB_PASSWORD" \
         --install-app erpnext \

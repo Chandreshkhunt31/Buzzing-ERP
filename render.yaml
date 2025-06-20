@@ -12,13 +12,35 @@ services:
       - key: DB_PASSWORD
         generateValue: true
       - key: DB_HOST
-        value: erpnext-db
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
       - key: DB_PORT
-        value: 3306
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: DB_NAME
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: database
+      - key: DB_USER
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: user
       - key: REDIS_CACHE
-        value: erpnext-redis
+        fromService:
+          name: erpnext-redis
+          type: redis
+          property: host
       - key: REDIS_QUEUE
-        value: erpnext-redis
+        fromService:
+          name: erpnext-redis
+          type: redis
+          property: host
       - key: FRAPPE_SITE_NAME_HEADER
         value: ${RENDER_EXTERNAL_HOSTNAME}
       - key: UPSTREAM_REAL_IP_ADDRESS
@@ -72,13 +94,35 @@ services:
       - key: ERPNEXT_VERSION
         value: v15.65.4
       - key: DB_HOST
-        value: erpnext-db
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: host
       - key: DB_PORT
-        value: 3306
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: port
+      - key: DB_NAME
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: database
+      - key: DB_USER
+        fromService:
+          name: erpnext-db
+          type: pserv
+          property: user
       - key: REDIS_CACHE
-        value: erpnext-redis
+        fromService:
+          name: erpnext-redis
+          type: redis
+          property: host
       - key: REDIS_QUEUE
-        value: erpnext-redis
+        fromService:
+          name: erpnext-redis
+          type: redis
+          property: host
     healthCheckPath: /
     numInstances: 1
 
