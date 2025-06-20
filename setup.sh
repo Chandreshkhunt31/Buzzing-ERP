@@ -23,8 +23,8 @@ echo "================================"
 
 # Configure Frappe
 echo "Configuring Frappe..."
-bench set-config -g db_host $DB_HOST
-bench set-config -gp db_port $DB_PORT
+bench set-config -g db_host "$DB_HOST"
+bench set-config -gp db_port "$DB_PORT"
 bench set-config -g redis_cache "redis://$REDIS_CACHE:6379"
 bench set-config -g redis_queue "redis://$REDIS_QUEUE:6379"
 bench set-config -g redis_socketio "redis://$REDIS_QUEUE:6379"
@@ -35,13 +35,13 @@ echo "Using site name: $SITE_NAME"
 
 if [ ! -d "/home/frappe/frappe-bench/sites/$SITE_NAME" ]; then
     echo "Creating site: $SITE_NAME"
-    bench new-site $SITE_NAME \
-        --db-host $DB_HOST \
-        --db-port $DB_PORT \
+    bench new-site "$SITE_NAME" \
+        --db-host "$DB_HOST" \
+        --db-port "$DB_PORT" \
         --db-name erpnext \
-        --db-user erpnext \
-        --db-password $DB_PASSWORD \
-        --admin-password $DB_PASSWORD \
+        --db-root-username erpnext \
+        --db-root-password "$DB_PASSWORD" \
+        --admin-password "$DB_PASSWORD" \
         --install-app erpnext \
         --force
 else
@@ -49,7 +49,7 @@ else
 fi
 
 # Set site as default
-bench use $SITE_NAME
+bench use "$SITE_NAME"
 
 # Start background workers in the background
 echo "Starting background workers..."
@@ -59,4 +59,4 @@ bench schedule &
 
 # Start the backend service
 echo "Starting Frappe backend..."
-bench start --port 8000 
+bench start 
