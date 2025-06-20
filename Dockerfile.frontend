@@ -3,11 +3,12 @@ FROM frappe/erpnext:v15.65.4
 # Set environment variables
 ENV ERPNEXT_VERSION=v15.65.4
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy frontend setup script
+COPY frontend-setup.sh /frontend-setup.sh
+RUN chmod +x /frontend-setup.sh
 
 # Expose port
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"] 
+# Start the frontend service
+CMD ["/frontend-setup.sh"] 
