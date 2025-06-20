@@ -12,25 +12,13 @@ services:
       - key: DB_PASSWORD
         generateValue: true
       - key: DB_HOST
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: host
+        value: ${DB_HOST}
       - key: DB_PORT
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: port
+        value: ${DB_PORT}
       - key: REDIS_CACHE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
       - key: REDIS_QUEUE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
       - key: FRAPPE_SITE_NAME_HEADER
         value: ${RENDER_EXTERNAL_HOSTNAME}
       - key: UPSTREAM_REAL_IP_ADDRESS
@@ -84,25 +72,13 @@ services:
       - key: ERPNEXT_VERSION
         value: v15.65.4
       - key: DB_HOST
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: host
+        value: ${DB_HOST}
       - key: DB_PORT
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: port
+        value: ${DB_PORT}
       - key: REDIS_CACHE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
       - key: REDIS_QUEUE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
     healthCheckPath: /
     numInstances: 1
 
@@ -117,25 +93,13 @@ services:
       - key: ERPNEXT_VERSION
         value: v15.65.4
       - key: DB_HOST
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: host
+        value: ${DB_HOST}
       - key: DB_PORT
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: port
+        value: ${DB_PORT}
       - key: REDIS_CACHE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
       - key: REDIS_QUEUE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
     numInstances: 1
 
   # ERPNext Queue Long Worker
@@ -149,25 +113,13 @@ services:
       - key: ERPNEXT_VERSION
         value: v15.65.4
       - key: DB_HOST
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: host
+        value: ${DB_HOST}
       - key: DB_PORT
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: port
+        value: ${DB_PORT}
       - key: REDIS_CACHE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
       - key: REDIS_QUEUE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
     numInstances: 1
 
   # ERPNext Scheduler
@@ -181,25 +133,13 @@ services:
       - key: ERPNEXT_VERSION
         value: v15.65.4
       - key: DB_HOST
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: host
+        value: ${DB_HOST}
       - key: DB_PORT
-        fromService:
-          name: erpnext-db
-          type: pserv
-          property: port
+        value: ${DB_PORT}
       - key: REDIS_CACHE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
       - key: REDIS_QUEUE
-        fromService:
-          name: erpnext-redis
-          type: pserv
-          property: host
+        value: ${REDIS_HOST}
     numInstances: 1
 
 databases:
