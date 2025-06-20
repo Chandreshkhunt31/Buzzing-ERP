@@ -3,12 +3,11 @@ FROM frappe/erpnext:v15.65.4
 # Set environment variables
 ENV ERPNEXT_VERSION=v15.65.4
 
-# Copy WebSocket setup script to a writable location
-COPY websocket-setup.sh /tmp/websocket-setup.sh
-RUN chmod +x /tmp/websocket-setup.sh && mv /tmp/websocket-setup.sh /websocket-setup.sh
+# Copy WebSocket setup script
+COPY websocket-setup.sh /websocket-setup.sh
 
 # Expose port
 EXPOSE 9000
 
-# Start the WebSocket service
-CMD ["/websocket-setup.sh"] 
+# Start the WebSocket service using bash to execute the script
+CMD ["bash", "/websocket-setup.sh"] 

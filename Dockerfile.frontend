@@ -3,12 +3,11 @@ FROM frappe/erpnext:v15.65.4
 # Set environment variables
 ENV ERPNEXT_VERSION=v15.65.4
 
-# Copy frontend setup script to a writable location
-COPY frontend-setup.sh /tmp/frontend-setup.sh
-RUN chmod +x /tmp/frontend-setup.sh && mv /tmp/frontend-setup.sh /frontend-setup.sh
+# Copy frontend setup script
+COPY frontend-setup.sh /frontend-setup.sh
 
 # Expose port
 EXPOSE 80
 
-# Start the frontend service
-CMD ["/frontend-setup.sh"] 
+# Start the frontend service using bash to execute the script
+CMD ["bash", "/frontend-setup.sh"] 
